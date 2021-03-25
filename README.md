@@ -1,4 +1,4 @@
-# Quadratic Sieve Factorization
+# QSFact
 CURRENTLY A WORK IN PROGRESS
 
 
