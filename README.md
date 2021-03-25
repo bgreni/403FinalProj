@@ -1,3 +1,7 @@
+# Quadratic Sieve Factorization
+CURRENTLY A WORK IN PROGRESS
+
+
 # References
 https://en.wikipedia.org/wiki/Quadratic_sieve
 
