@@ -20,7 +20,7 @@ void quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2) {
     Vec a(primes_lt_count+1);
     Vec b(primes_lt_count+1);
 
-    mpz_class interval_lower_bound = sqrt(n) + 1;
+    mpz_class interval_lower_bound = sqrt(n)+1;
 //    mpz_class interval_upper = sqrt(2*n) - 1;
 
     vector<vector<long>> matrix;
