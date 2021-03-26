@@ -70,7 +70,7 @@ inline vector<long> get_even_indices(const vector<long> &exp_counts, long primes
     vector<long> indices;
 
     for (long j = 0; j <= primes_lt_count; ++j) {
-        if (j == (long)exp_counts.size()) break;
+//        if (j == (long)exp_counts.size()) break;
 
         if (exp_counts[j] % 2 == 0)
             indices.push_back(j);

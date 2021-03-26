@@ -10,9 +10,12 @@ using namespace std;
 void quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2) {
     mpz_class smooth_bound;
     get_factor_base(n, smooth_bound);
+    if (19 > smooth_bound)
+        smooth_bound = 19;
     cout << "SMOOTH BOUND " << smooth_bound << endl;
     vector<long> primes;
     long primes_lt_count = primes_lt_b(smooth_bound, primes);
+    cout << "NUM PRIMES: " << primes_lt_count << endl;
 
     Vec a(primes_lt_count+1);
     Vec b(primes_lt_count+1);
@@ -28,13 +31,18 @@ void quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2) {
         cout << "Ai: " << a[i] << endl;
         b[i] = (a[i]*a[i]) - n;
         cout << "Bi: " << b[i] << endl;
-        if (!is_b_smooth(b[i], smooth_bound)) {
+        if (is_b_smooth(b[i], smooth_bound)) {
             vector<long> exps_counts = get_factor_vector(b[i]);
+            cout << "EXP COUNTS: ";
+            show(exps_counts);
             matrix.push_back(exps_counts);
             vector<long> indices = get_even_indices(exps_counts, primes_lt_count);
 
-//            cout << i << endl;
-//            show(indices);
+            if (indices.size() == 0) continue;
+
+            cout << "I: " << i << endl;
+            cout << "INDICES: ";
+            show(indices);
 
             mpz_class x = 1;
 
@@ -54,9 +62,9 @@ void quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2) {
             }
             cout << "X: " << x << endl;
             cout << "Y: " << y << endl;
-            if (x != (y % n) && (x != y))
+            if (x != (abs(y) % n) && (x != y))
                 continue;
-            else if (x == (y % n)) {
+            else if (x == (abs(y) % n)) {
                 fact1 = gcd(x - y, n);
                 fact2 = gcd(x + y, n);
                 return;
@@ -90,14 +98,9 @@ long primes_lt_b(mpz_class &b, vector<long> &prime_set) {
 
 //    int k = 0;
     for(unsigned long i = 0; i < primes.size(); ++i) {
-        if (primes[i]) {
+        if (primes[i] && mpz_legendre(b.get_mpz_t(), mpz_class(primes[i]).get_mpz_t()) == 1) {
             ++count;
-
-            // only need half of the primes we produce
-//            if (k % 2 == 0) {
             prime_set.push_back(i);
-//                ++k %= 2;
-//            }
         }
     }
     return count;
@@ -108,9 +111,10 @@ vector<long> get_factor_vector(mpz_class n) {
     /// TODO find some estimate of the number of elements we might need to store
     vector<long> factors_exps;
     long count = 0;
-
+    cout << "FACTOR PRIMES: ";
     while (n % 2 == 0) {
         ++count;
+        cout << 2 << " ";
         n /= 2;
     }
     if (count != 0)
@@ -122,6 +126,7 @@ vector<long> get_factor_vector(mpz_class n) {
         while (n % i == 0) {
             ++count;
             n /= i;
+            cout << i << " ";
         }
         if (n == 0) break;
         if (count != 0)
@@ -129,8 +134,10 @@ vector<long> get_factor_vector(mpz_class n) {
         count = 0;
     }
 
-    if (n > 2)
-        factors_exps.push_back(1);
+    if (n > 2) {
+        factors_exps.push_back(n.get_si());
+        cout << n << endl;
+    }
 
     return factors_exps;
 }
