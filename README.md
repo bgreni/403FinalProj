@@ -16,3 +16,7 @@ https://www.geeksforgeeks.org/p-smooth-numbers-p-friable-number/
 https://www.youtube.com/watch?v=Y3N0vZoPCWE
 
 https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+
+https://primes.utm.edu/howmany.html
+
+https://people.cs.clemson.edu/~goddard/MINI/2004/BowmanCochran.pdf
