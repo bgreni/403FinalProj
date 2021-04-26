@@ -2,10 +2,13 @@
 
 #include <iostream>
 #include <gmpxx.h>
+#include <gmp.h>
 #include <vector>
 #include <chrono>
 #include <cmath>
 #include <iterator>
+#include <map>
+#include <utility>
 
 #define Vec vector<mpz_class>
 #define NOW chrono::high_resolution_clock::now()
@@ -18,11 +21,15 @@
 #define GREEN   "\033[32m"
 
 using namespace std;
+using ull = unsigned long long;
+using Matrix = vector<Vec>;
+using SolRows = vector<pair<Vec, size_t>>;
 
-inline void prod(Vec &vals, mpz_class &ret) {
-    ret = vals[0];
+inline mpz_class prod(Vec &vals) {
+    mpz_class ret = vals[0];
     for (auto it = vals.begin()+1; it != vals.end(); ++it)
         ret *= *it;
+    return ret;
 }
 
 inline void sum(Vec &vals, mpz_class &ret) {
@@ -78,6 +85,50 @@ inline vector<long> get_even_indices(const vector<long> &exp_counts, long primes
     return indices;
 }
 
+void tonelli_shanks(const mpz_class n, mpz_class &p, mpz_class &x, mpz_class &other) {
+
+    mpz_class q = p - 1;
+    mpz_class s = 0;
+
+    while (q % 2 == 0) {
+        
+    }
+
+}
+
+map<mpz_class, int> get_p_factors(mpz_class n, Vec base) {
+    map<mpz_class, int> factors;
+    int count = 0;
+
+    if (n < 0)
+        factors[-1] = 1;
+    
+    for (auto prime : base) {
+        if (prime == -1) continue;
+
+        while (n % prime == 0 && n != 0) {
+            ++count;
+            n /= prime;
+        }
+        factors[prime] = count;
+        count = 0;
+    }
+
+    return factors;
+}
+
+Matrix transpose(Matrix &m) {
+    Matrix new_matrix;
+
+    for (size_t i = 0; i < m[0].size(); ++i) {
+        Vec new_row;
+        for (auto row : m) {
+            new_row.push_back(row[i]);
+        }
+        new_matrix.push_back(new_row);
+    }
+    return new_matrix;
+}
 
 template<typename T>
 void show(const T& t) {

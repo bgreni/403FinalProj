@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-    mpz_class n = 1000;
+    mpz_class n = 315;
 //    mpz_pow_ui(n.get_mpz_t(), n.get_mpz_t(), 10);
 //    n = sqrt(n);
 //    double m = 1000;
