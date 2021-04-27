@@ -2,3 +2,5 @@
 main
 tests
 .idea/
+vgcore*
+.vscode

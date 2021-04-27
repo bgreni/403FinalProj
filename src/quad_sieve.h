@@ -1,8 +1,8 @@
-#include <gmpxx.h>
-#include <utils.h>
-
-
 #pragma once
+
+#include <gmpxx.h>
+#include "utils.h"
+#include "wrappers.h"
 
 using namespace std;
 
@@ -12,15 +12,16 @@ class QSFact {
     long smooth_bound;
     mpz_class interval_size;
     Vec factor_base;
+    bool debug;
 
     public:
         void quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2);
         void initialize(const mpz_class &n);
         void create_factor_base(const mpz_class &n);
-        void gen_smooth_numbers(const mpz_class &n, Vec &smooths, Vec xlist);
+        void gen_smooth_numbers(const mpz_class &n, Vec &smooths, Vec &xlist);
         Matrix gen_matrix(const Vec &smooths, const mpz_class &n);\
         void solve_linear(Matrix &matrix, vector<bool> &flagged, SolRows &solution_rows);
         void gauss(Matrix &A, vector<bool> &flagged);
-        Vec find_dependencies(pair<Vec, size_t> &solution, Matrix &matrix, vector<bool> flagged);
+        vector<size_t> find_dependencies(const pair<Vec, size_t> &solution, Matrix &matrix, vector<bool> &flagged);
 };
 

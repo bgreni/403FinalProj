@@ -4,215 +4,214 @@
 #include <vector>
 #include "quad_sieve.h"
 #include <math.h>
+#include <string>
+#include "wrappers.h"
+#include "test_numbers.h"
+#include <random>
 
 using namespace std;
-#define ASSERT(x, y, z) { if (!x) {cout << RED << __FUNCTION__ << " failed on line " << __LINE__ << " "; \
-    cout << "Expected " << y << " got " << z << RESET << endl; return false;} }
-#define IS_TRUE(x) { if (!x) {cout << RED << __FUNCTION__ << " failed on line " << __LINE__ << RESET << endl; return false;} }
-#define PASSED cout << GREEN << __FUNCTION__ << " passed in " << t << " ms" << RESET << endl;
 
-bool test_prod1() {
+
+bool test_tonelli_shanks() {
+    string expected = "(9, 4)";
+    char recieved[10];
+    mpz_class n = 315;
+    mpz_class p = 13;
+    mpz_class s1, s2;
+
     auto s = NOW;
-
-    mpz_class ret = 0;
-    Vec vals = {1,2,3};
-    prod(vals, ret);
-    ASSERT((ret == 6), 6, ret);
-
+    tonelli_shanks(n, p, s1, s2);
     auto e = NOW;
-    auto t = DUR(s, e);
+
+    gmp_sprintf(recieved, "(%Zd, %Zd)", s1, s2);
+    ASSERT((s1 == 9 && s2 == 4), expected, recieved);
 
     PASSED;
-
-    return true;
 }
 
-bool test_prod2() {
+bool test_tonelli_shanks2() {
+    string expected = "(14, 3)";
+    char recieved[10];
+    mpz_class n = 315;
+    mpz_class p = 17;
+    mpz_class s1, s2;
+
     auto s = NOW;
-
-    mpz_class ret = 0;
-    Vec vals = {300,232,454};
-    prod(vals, ret);
-    ASSERT((ret == 31598400), 31598400, ret);
-
+    tonelli_shanks(n, p, s1, s2);
     auto e = NOW;
-    auto t = DUR(s, e);
+
+    gmp_sprintf(recieved, "(%Zd, %Zd)", s1, s2);
+    ASSERT((s1 == 14 && s2 == 3), expected, recieved);
 
     PASSED;
-
-    return true;
 }
 
-bool test_prod3() {
+bool test_transpose() {
+    Matrix orig = {
+        { 1, 2, 3 },
+        { 4, 5, 6 },
+        { 7, 8, 9 }
+    };
+    Matrix expected = {
+        { 1, 4, 7 },
+        { 2, 5, 8 },
+        { 3, 6, 9 }
+    };
     auto s = NOW;
-    mpz_class n = 10;
-    mpz_pow_ui(n.get_mpz_t(), n.get_mpz_t(), 100);
-
-    mpz_class ret = 0;
-    Vec vals(100, 10);
-    prod(vals, ret);
-    ASSERT((ret == n), n, ret);
-
+    Matrix res = transpose(orig);
     auto e = NOW;
-    auto t = DUR(s, e);
+    ASSERT((matrix_eq(expected, res)), mat_to_string(expected), mat_to_string(res));
 
     PASSED;
-
-    return true;
 }
 
-bool test_sum1() {
+bool test_powm() {
+    mpz_class res, base=1123, exp=4, mod=23, expected=3;
     auto s = NOW;
-
-    mpz_class ret = 0;
-    Vec vals = {1,2,3};
-    sum(vals, ret);
-    ASSERT((ret == 6), 6, ret);
-
+    powm(res, base, exp, mod);
     auto e = NOW;
-    auto t = DUR(s, e);
-
+    ASSERT((res == expected), expected, res);
     PASSED;
-
-    return true;
 }
 
-bool test_sum2() {
+bool test_legendre() {
+    mpz_class n=315, p=13;
     auto s = NOW;
-
-    mpz_class ret = 0;
-    Vec vals = {100,250,333};
-    sum(vals, ret);
-    ASSERT((ret == 683), 683, ret);
-
+    int res = legendre(n, p);
     auto e = NOW;
-    auto t = DUR(s, e);
-
+    ASSERT((res == 1), 1, res);
     PASSED;
-
-    return true;
 }
 
+QSFact qs = QSFact();
+mpz_class f1, f2, n, res;
 
-bool test_isbsmooth1() {
+bool test_qs_tiny() {
+    n = TINY;
     auto s = NOW;
-    mpz_class n = 95;
-//    mpz_class n = 439;
-    mpz_class b = 19;
-    IS_TRUE(is_b_smooth(n, b))
-
+    qs.quad_sieve(n, f1, f2);
     auto e = NOW;
-    auto t = DUR(s, e);
-
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
     PASSED;
-
-    return true;
 }
 
-bool test_isbsmooth2() {
+bool test_qs_small() {
+    n = SMALL;
     auto s = NOW;
-    mpz_class n = 24;
-    mpz_class b = 7;
-    IS_TRUE(is_b_smooth(n, b))
-
+    qs.quad_sieve(n, f1, f2);
     auto e = NOW;
-    auto t = DUR(s, e);
-
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
     PASSED;
-
-    return true;
 }
 
-bool test_isbsmooth3() {
+bool test_qs_medium() {
+    n = MEDIUM;
     auto s = NOW;
-    mpz_class n = 24;
-    mpz_class b = 2;
-    IS_TRUE(!is_b_smooth(n, b))
-
+    qs.quad_sieve(n, f1, f2);
     auto e = NOW;
-    auto t = DUR(s, e);
-
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
     PASSED;
-
-    return true;
 }
 
-bool test_pltb1() {
+bool test_qs_large() {
+    n = LARGE;
     auto s = NOW;
-    mpz_class b = 30;
-    long ret;
-    vector<long> m;
-    ret = primes_lt_b(b, m);
-    ASSERT((ret == 10), 10, ret)
-
+    qs.quad_sieve(n, f1, f2);
     auto e = NOW;
-    auto t = DUR(s, e);
-
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
     PASSED;
-
-    return true;
 }
 
-bool test_primefacts1() {
+bool test_qs_RSA32() {
+    n = RSA_32bit;
     auto s = NOW;
-    mpz_class b = 315;
-    vector<long> ret = get_factor_vector(b);
-    ASSERT((ret[0] == 2), 2, ret[0])
-    ASSERT((ret[1] == 1), 1, ret[1])
-    ASSERT((ret[2] == 1), 1, ret[2])
-
+    qs.quad_sieve(n, f1, f2);
     auto e = NOW;
-    auto t = DUR(s, e)
-
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
     PASSED;
-
-    return true;
 }
 
-bool test_evenindices1() {
+bool test_qs_RSA45() {
+    n = RSA_45bit;
     auto s = NOW;
-    vector<long> v = {2,1,1};
-    vector<long> ret = get_even_indices(v, 10);
-    ASSERT((ret[0] == 0), 0, ret[0])
-    IS_TRUE((ret.size() == 1))
-
+    qs.quad_sieve(n, f1, f2);
     auto e = NOW;
-    auto t = DUR(s, e)
-
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
     PASSED;
-
-    return true;
 }
 
-bool test_qs1() {
+bool test_qs_RSA64() {
+    n = RSA_64bit;
     auto s = NOW;
-    mpz_class n, f1, f2;
-    n = 315;
-
-    quad_sieve(n, f1, f2);
-    cout << f1 << " " << f2 << endl;
-    IS_TRUE((f1 * f2 == n))
-
+    qs.quad_sieve(n, f1, f2);
     auto e = NOW;
-    auto t = DUR(s, e)
-
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
     PASSED;
-
-    return true;
 }
 
+bool test_qs_RSA80() {
+    n = RSA_80bit;
+    auto s = NOW;
+    qs.quad_sieve(n, f1, f2);
+    auto e = NOW;
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
+    PASSED;
+}
+
+bool test_qs_RSA80_2() {
+    n = RSA_80bit_2;
+    auto s = NOW;
+    qs.quad_sieve(n, f1, f2);
+    auto e = NOW;
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
+    PASSED;
+}
+
+
+bool random_test() {
+    random_device rd;
+    uniform_int_distribution<ulong> dist(400, sqrt(INT_MAX) * 10);
+    int bad_count = 0;
+
+    for (int i = 0; i < 100; ++i) {
+        mpz_class a = dist(rd);
+        mpz_class b = dist(rd);
+        n = a * b;
+        qs.quad_sieve(n, f1, f2);
+        res = f1 * f2;
+        IS_TRUE((f1 != 1 && f1 != n));
+        ASSERT((res == n), n, res);
+        // cout << n << " " << f1 << " " << f2 << endl;
+        if (f1 < 10 || f2 < 10)
+            ++bad_count;
+    }
+    cout << GREEN << "random test suceeded " << bad_count << "/100 weak factors generated" << RESET << endl;
+    return true;
+}
 
 int main() {
-    test_prod1();
-    test_prod2();
-    test_prod3();
-    test_sum1();
-    test_sum2();
-    test_isbsmooth1();
-    test_isbsmooth2();
-    test_isbsmooth3();
-    test_pltb1();
-    test_primefacts1();
-    test_evenindices1();
-    test_qs1();
+    test_tonelli_shanks();
+    test_tonelli_shanks2();
+    test_transpose();
+    test_powm();
+    test_legendre();
+    test_qs_tiny();
+    test_qs_small();
+    test_qs_medium();
+    test_qs_large();
+    test_qs_RSA32();
+    test_qs_RSA45();
+    test_qs_RSA64();
+    test_qs_RSA80();
+    test_qs_RSA80_2();
+    random_test();
 }
