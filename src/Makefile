@@ -14,7 +14,7 @@ tests: tests.o quad_sieve.o utils.o
 	$(OBJ) $< -lgmpxx -lgmp
 
 main.o: main.cpp utils.h quad_sieve.h test_numbers.h
-tests.o: tests.cpp utils.h quad_sieve.h wrappers.h test_numbers.h
+tests.o: tests.cpp utils.h quad_sieve.h wrappers.h test_numbers.h pollard.h
 quad_sieve.o: quad_sieve.cpp quad_sieve.h utils.h wrappers.h
 utils.o: utils.cpp utils.h wrappers.h
 

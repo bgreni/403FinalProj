@@ -8,6 +8,7 @@
 #include "wrappers.h"
 #include "test_numbers.h"
 #include <random>
+#include "pollard.h"
 
 using namespace std;
 
@@ -146,6 +147,16 @@ bool test_qs_RSA45() {
     PASSED;
 }
 
+bool test_qs_RSA60() {
+    n = RSA_60bit;
+    auto s = NOW;
+    qs.quad_sieve(n, f1, f2);
+    auto e = NOW;
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
+    PASSED;
+}
+
 bool test_qs_RSA64() {
     n = RSA_64bit;
     auto s = NOW;
@@ -181,7 +192,7 @@ bool random_test() {
     random_device rd;
     uniform_int_distribution<ulong> dist(400, sqrt(INT_MAX) * 10);
     int bad_count = 0;
-
+    auto s = NOW;
     for (int i = 0; i < 100; ++i) {
         mpz_class a = dist(rd);
         mpz_class b = dist(rd);
@@ -194,7 +205,32 @@ bool random_test() {
         if (f1 < 10 || f2 < 10)
             ++bad_count;
     }
-    cout << GREEN << "random test suceeded " << bad_count << "/100 weak factors generated" << RESET << endl;
+    auto e = NOW;
+    auto t = DUR(s, e);
+    cout << GREEN << "random test suceeded " << bad_count << "/100 weak factors generated in " << t << " seoncds" << RESET << endl;
+    return true;
+}
+
+bool qs_vs_pollard_1() {
+    long long long_n = RSA_60bit.get_ui();
+    cout << "Using pollard for 60 bit RSA\n";
+    auto s = NOW;
+    long long res = PollardRho(long_n);
+    auto e = NOW;
+    auto t = DUR(s, e);
+    long long fact2 = long_n / res;
+    IS_TRUE(res * fact2 == long_n);
+    cout << "pollard found " << res << " " << fact2 << " in " << t << " seconds\n";
+
+    n = RSA_60bit;
+    cout << "Using QS for 60 bit RSA\n";
+    s = NOW;
+    qs.quad_sieve(n, f1, f2);
+    e = NOW;
+    t = DUR(s, e);
+    IS_TRUE(f2 * f2 == n);
+    cout << "QS found " << f1 << " " << f2 << " in " << t << " seconds\n";
+
     return true;
 }
 
@@ -210,8 +246,10 @@ int main() {
     test_qs_large();
     test_qs_RSA32();
     test_qs_RSA45();
+    test_qs_RSA60();
     test_qs_RSA64();
     test_qs_RSA80();
     test_qs_RSA80_2();
     random_test();
+    // qs_vs_pollard_1();
 }

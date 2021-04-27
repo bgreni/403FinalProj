@@ -37,3 +37,7 @@ inline void sqrt(mpz_class &n) {
 inline mpz_class safe_mod(mpz_class a, mpz_class b) {
     return (a % b + b) % b;
 }
+
+inline int digit_length(const mpz_class &n, int base) {
+    return mpz_sizeinbase(n.get_mpz_t(), base);
+}
