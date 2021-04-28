@@ -1,6 +1,6 @@
 LINKS = -lgmpxx -lgmp
 COMP = g++ $(LINKS) -Wall -std=c++17 -O3 -o
-OBJ = g++ $(LINKS) -Wall -std=c++17 -O3 -c
+OBJ = g++ -Wall -std=c++17 -O3 -c
 
 
 defaults: qsmain

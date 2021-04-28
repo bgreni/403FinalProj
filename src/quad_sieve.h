@@ -11,7 +11,6 @@ class QSFact {
     long smooth_bound;
     mpz_class interval_size;
     Vec factor_base;
-    bool debug;
     int MAX_ITERATIONS;
 
     public:

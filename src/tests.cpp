@@ -24,7 +24,7 @@ bool test_tonelli_shanks() {
     tonelli_shanks(n, p, s1, s2);
     auto e = NOW;
 
-    gmp_sprintf(recieved, "(%Zd, %Zd)", s1, s2);
+    gmp_sprintf(recieved, "(%Zd, %Zd)", s1.get_mpz_t(), s2.get_mpz_t());
     ASSERT((s1 == 9 && s2 == 4), expected, recieved);
 
     PASSED;
@@ -41,7 +41,7 @@ bool test_tonelli_shanks2() {
     tonelli_shanks(n, p, s1, s2);
     auto e = NOW;
 
-    gmp_sprintf(recieved, "(%Zd, %Zd)", s1, s2);
+    gmp_sprintf(recieved, "(%Zd, %Zd)", s1.get_mpz_t(), s2.get_mpz_t());
     ASSERT((s1 == 14 && s2 == 3), expected, recieved);
 
     PASSED;
@@ -210,7 +210,7 @@ bool test_qs_RSA80_2() {
 
 bool random_test() {
     random_device rd;
-    uniform_int_distribution<ulong> dist(400, sqrt(INT_MAX));
+    uniform_int_distribution<unsigned long> dist(400, sqrt(INT_MAX));
     int bad_count = 0;
     auto s = NOW;
     cout << "Starting random tests...\n"; 

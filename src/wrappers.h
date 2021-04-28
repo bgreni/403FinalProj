@@ -11,12 +11,12 @@
 inline void powm(mpz_class &res, const mpz_class &base, const mpz_class &exp, const mpz_class &mod) {
     mpz_powm(res.get_mpz_t(), base.get_mpz_t(), exp.get_mpz_t(), mod.get_mpz_t());
 }
-inline void powm_ui(mpz_class &res, const mpz_class &base, const ulong exp, const mpz_class &mod) {
+inline void powm_ui(mpz_class &res, const mpz_class &base, const unsigned long exp, const mpz_class &mod) {
     mpz_powm_ui(res.get_mpz_t(), base.get_mpz_t(), exp, mod.get_mpz_t());
 } 
 
 // res = base^exp
-inline void pow_ui(mpz_class &res, const mpz_class &base, const ulong exp) {
+inline void pow_ui(mpz_class &res, const mpz_class &base, const unsigned long exp) {
     mpz_pow_ui(res.get_mpz_t(), base.get_mpz_t(), exp);
 }
 

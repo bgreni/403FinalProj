@@ -9,7 +9,7 @@
 void tonelli_shanks(const mpz_class n, const mpz_class &p, mpz_class &sol1, mpz_class &sol2) {
 
     mpz_class q, r, z, c, t, t2, b;
-    ulong s=0, i, m;
+    unsigned long s=0, i, m;
 
     q = p - 1;
     while (q % 2 == 0) {

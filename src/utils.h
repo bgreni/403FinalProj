@@ -21,9 +21,9 @@ using namespace std;
 
 // test macros
 #define ASSERT(x, y, z) { if (!x) {cout << RED << __FUNCTION__ << " failed on line " << __LINE__ << " "; \
-    cout << "Expected " << y << " got " << z << RESET << endl; return false;} }
-#define IS_TRUE(x) { if (!x) {cout << RED << __FUNCTION__ << " failed on line " << __LINE__ << RESET << endl; return false;} }
-#define PASSED auto t = DUR(s,e); cout << GREEN << __FUNCTION__ << " passed in " << t << " seconds" << RESET << endl; return true
+    cout << "Expected " << y << " got " << z << RESET << endl; return 0;} }
+#define IS_TRUE(x) { if (!x) {cout << RED << __FUNCTION__ << " failed on line " << __LINE__ << RESET << endl; return 0;} }
+#define PASSED auto t = DUR(s,e); cout << GREEN << __FUNCTION__ << " passed in " << t << " seconds" << RESET << endl; return 1
 
 /// FOR COLORING OUTPUT TEXT
 #define RESET   "\033[0m"
