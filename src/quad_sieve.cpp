@@ -3,7 +3,7 @@
 #include <gmpxx.h>
 #include "quad_sieve.h"
 #include <vector>
-#include <functional>
+#include "wrappers.h"
 
 using namespace std;
 
@@ -37,7 +37,7 @@ bool QSFact::quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2, 
     }
 
     // sqrt(n) serves at the midpoint of the sieve interval
-    root = sqrt(n);
+    big_sqrt(root, n);
 
     // init smooth bound and interval size
     initialize(n);
@@ -89,7 +89,7 @@ bool QSFact::quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2, 
                 }
                 
                 x = abs(prod(a_vec));
-                sqrt(x);
+                big_sqrt(x);
                 y = prod(b_vec);
 
                 // test to see if this is a solution

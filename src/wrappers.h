@@ -31,8 +31,12 @@ inline int legendre(const mpz_class &n, const mpz_class &p) {
 }
 
 // n = sqrt(n);
-inline void sqrt(mpz_class &n) {
+inline void big_sqrt(mpz_class &n) {
     mpz_sqrt(n.get_mpz_t(), n.get_mpz_t());
+}
+
+inline void big_sqrt(mpz_class &res, const mpz_class &n) {
+    mpz_sqrt(res.get_mpz_t(), n.get_mpz_t());
 }
 
 // safe mod so mod of negative integers works properly

@@ -3,7 +3,6 @@
 #include "utils.h"
 #include <vector>
 #include "quad_sieve.h"
-#include <math.h>
 #include <string>
 #include "wrappers.h"
 #include "test_numbers.h"

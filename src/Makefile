@@ -21,6 +21,6 @@ utils.o: utils.cpp utils.h wrappers.h
 
 clean:
 	-rm *.o $(objects)
-	-rm main
+	-rm qsmain
 	-rm tests
 	-rm vgcore*

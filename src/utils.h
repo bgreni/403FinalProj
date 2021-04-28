@@ -6,11 +6,9 @@
 #include <gmp.h>
 #include <vector>
 #include <chrono>
-#include <cmath>
 #include <iterator>
 #include <map>
 #include <utility>
-#include <algorithm>
 #include <sstream>
 
 using namespace std;
