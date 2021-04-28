@@ -4,6 +4,7 @@
 #include "quad_sieve.h"
 #include <vector>
 #include "wrappers.h"
+#include <math.h>
 
 using namespace std;
 
