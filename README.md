@@ -53,7 +53,9 @@ So instead I use a set of fixed parameters based on the base 10 digit length of 
     make tests
     ./tests
     ```
-    For the unit tests the output of the factoring will not be shown, but rather it will print whether each test passed. Ex: e.g: `test_qs_RSA64 passed in 0.861948 seconds`
+    For the unit tests the output of the factoring will not be shown, but rather it will print whether each test passed. Ex: e.g: `test_qs_RSA64 passed in 0.861948 seconds`.
+
+    If you wish to perform the Pollard Rho performance test on your own machine, simply uncomment the last test case in `tests.cpp` called `qs_vs_pollard_1()`
 
 ## Program Ouput
 The output of the main program is simply the time it took to find a solution in seconds, as well as
@@ -66,7 +68,7 @@ factor 2: 261
 ```
 
 ## Issues to Note
-Very large inputs (~90 bits) seem to have a chance of causing a `segfault`, and I was never able to understand why, as running the program through valgrind is orders of magnitude slower, and it may take far longer to find the segfault than I am at liberty to wait. It is also possible that the random tests section of the unit tests may take far longer than the average of 4 seconds if a problematic number is generated, of which I also don't know the cause. Otherwise, the program should work as intended.
+Very large inputs (~90 bits) seem to have a chance of causing a `segfault`, and I was never able to understand why, as running the program through valgrind is orders of magnitude slower, and it may take far longer to find the segfault than I am at liberty to wait. Although my only guess is the size of the matrix grows too large to be allocated in memory, as unfortunately since my implementation is quite naive, it is also not very memory efficient. It is also possible that the random tests section of the unit tests may take far longer than the average of 4 seconds if a problematic number is generated, of which I also don't know the cause. Otherwise, the program should work as intended.
 
 The case where the primality test returns 1 because N is only probably prime hasn't actually been tested because I couldn't find a number that caused that to happen.
 

@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
     // a warning in case a very large number is requested
     if (level > 6 || digit_length(n, 2) > 80)  {
         char resp;
-        cout << YELLOW << "Warning: factoring integers over roughly 80 bits may take a very long time" << RESET << endl;
+        cout << YELLOW << "Warning: factoring integers over roughly 80 bits may take a very long time, or crash due to lack of memory" << RESET << endl;
         cout << "Do you still wish to continue? [Y/n]: ";
         cin >> resp;
         if (tolower(resp) != 'y')
