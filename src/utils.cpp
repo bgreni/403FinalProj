@@ -2,8 +2,10 @@
 #include <assert.h> 
 #include "wrappers.h"
 
-
-// https://gmplib.org/list-archives/gmp-devel/2006-May/000633.html
+// https://github.com/Maosef/Quadratic-Sieve/blob/242238b74ded1983f91160952e57e949beae16eb/Quadratic%20Sieve.py#L85
+/**
+ * tonelli shanks implementation I adapted to work with gmp integers
+*/
 void tonelli_shanks(const mpz_class n, const mpz_class &p, mpz_class &sol1, mpz_class &sol2) {
 
     mpz_class q, r, z, c, t, t2, b;
@@ -48,6 +50,12 @@ void tonelli_shanks(const mpz_class n, const mpz_class &p, mpz_class &sol1, mpz_
     sol2 = p - r;
 }
 
+/**
+ * Generates all the prime factorization of an integer n over a base of primes
+ * 
+ * Uses a map to store factorization cause we mostly just care about how many
+ * times each prime divides n
+*/
 map<mpz_class, int> get_p_factors(mpz_class n, Vec base) {
     map<mpz_class, int> factors;
     int count = 0;
@@ -58,10 +66,8 @@ map<mpz_class, int> get_p_factors(mpz_class n, Vec base) {
     for (auto prime : base) {
         if (prime == -1) continue;
 
-        while (n % prime == 0 && n != 0) {
-            ++count;
-            n /= prime;
-        }
+        count = remove_fact(n, n, prime);
+
         if (count > 0) {
             factors[prime] = count;
             count = 0;
@@ -71,6 +77,11 @@ map<mpz_class, int> get_p_factors(mpz_class n, Vec base) {
     return factors;
 }
 
+/**
+ * Naive transposition function cause all the cool ones I found
+ * seem to require the matrix to be square. Which is
+ * unfortunate cause this seems to be a bit of a bottleneck
+*/
 Matrix transpose(Matrix &m) {
     Matrix new_matrix(m[0].size(), Vec(m.size()));
 
@@ -82,6 +93,9 @@ Matrix transpose(Matrix &m) {
     return new_matrix;
 }
 
+/**
+ * Check if two matrices are equal, was only used for debugging
+*/
 bool matrix_eq(const Matrix &m1, const Matrix &m2) {
     if (m1.size() != m2.size()) return false;
 

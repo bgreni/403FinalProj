@@ -7,10 +7,15 @@ For my project I implemented a self-initializing quadratic sieve
 integers (greater than 10^50). It is the 2 fastest classical integer factoring algorithm, behind the general number field sieve, but SIQS is much simpler.
 
 ### Runtime
-according to [this](https://mathworld.wolfram.com/QuadraticSieve.html) page from wolfram mathworld, general runtime of the algorithm is O(exp(sqrt(ln(n) ln(ln(n))))), and frankly, I have absolutely no idea why. However, I assume that bound is for one iteration of the algorithm, and since my implementation allows for retry iterations if the first attemp fails, then the a more precise expression would be O(exp(sqrt(ln(n) ln(ln(n)))) * NUM_ITERATIONS)
+according to [this](https://mathworld.wolfram.com/QuadraticSieve.html) page from wolfram mathworld, general runtime of the algorithm is O(X) where X = exp(sqrt(ln(n) ln(ln(n)))). From what I
+understand, this is due to the fact that the analytically optimal choice of smoothness
+B is X ^ (sqr(2)/4) [reference (page 4)](http://www.damianball.com/pdf/portfolio/quadratic-sieve.pdf), and the asymptotic runtime of the algorithm is relative to the size of the
+factor base. My program does not use that formula however, as I found computing
+logs using gmp is not supported, and I didn't like any of the workarounds I found.
+So instead I use a set of fixed parameters based on the base 10 digit length of N. Therefore, my solution is likely some factor slower than optimal.
 
 ## Running the program
-
+1. Enter the source folder `cd`
 
 
 # References
@@ -27,10 +32,6 @@ https://www.geeksforgeeks.org/p-smooth-numbers-p-friable-number/
 https://www.youtube.com/watch?v=Y3N0vZoPCWE
 
 https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
-
-https://primes.utm.edu/howmany.html
-
-https://people.cs.clemson.edu/~goddard/MINI/2004/BowmanCochran.pdf
 
 https://martinlauridsen.info/pub/bsc_thesis.pdf
 

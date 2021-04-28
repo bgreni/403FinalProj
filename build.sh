@@ -5,7 +5,7 @@ then
   make tests && ./tests
 elif [[ $1  == run ]]
 then
-  make && ./main
+  make && ./qsmain --level 4
 elif [[ $1 == clean ]]
 then
   make clean && make

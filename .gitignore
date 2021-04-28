@@ -1,5 +1,5 @@
 *.o
-main
+qsmain
 tests
 .idea/
 vgcore*

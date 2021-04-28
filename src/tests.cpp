@@ -127,6 +127,26 @@ bool test_qs_large() {
     PASSED;
 }
 
+bool test_qs_prime() {
+    n = SMALL_PRIME;
+    auto s = NOW;
+    qs.quad_sieve(n, f1, f2);
+    auto e = NOW;
+    res = f1 * f2;
+    ASSERT((res == n && (f1 == 1 && f2 == n)), n, res);
+    PASSED;
+}
+
+bool test_qs_really_big() {
+    n = RANDOM_BIG_NUMBER;
+    auto s = NOW;
+    qs.quad_sieve(n, f1, f2);
+    auto e = NOW;
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
+    PASSED;
+}
+
 bool test_qs_RSA32() {
     n = RSA_32bit;
     auto s = NOW;
@@ -190,9 +210,10 @@ bool test_qs_RSA80_2() {
 
 bool random_test() {
     random_device rd;
-    uniform_int_distribution<ulong> dist(400, sqrt(INT_MAX) * 10);
+    uniform_int_distribution<ulong> dist(400, sqrt(INT_MAX));
     int bad_count = 0;
     auto s = NOW;
+    cout << "Starting random tests...\n"; 
     for (int i = 0; i < 100; ++i) {
         mpz_class a = dist(rd);
         mpz_class b = dist(rd);
@@ -207,7 +228,7 @@ bool random_test() {
     }
     auto e = NOW;
     auto t = DUR(s, e);
-    cout << GREEN << "random test suceeded " << bad_count << "/100 weak factors generated in " << t << " seoncds" << RESET << endl;
+    cout << GREEN << "random test suceeded " << bad_count << "/100 weak factors generated in " << t << " seconds" << RESET << endl;
     return true;
 }
 
@@ -234,6 +255,24 @@ bool qs_vs_pollard_1() {
     return true;
 }
 
+bool test_probprime_true() {
+    n = 897345903661;
+    auto s = NOW;
+    int ans = probably_prime(n);
+    auto e = NOW;
+    ASSERT((ans != 0), "1 or 2", 0);
+    PASSED;
+}
+
+bool test_probprime_false() {
+    n = RSA_129bit;
+    auto s = NOW;
+    int ans = probably_prime(n);
+    auto e = NOW;
+    ASSERT((ans == 0), 0, ans);
+    PASSED;
+}
+
 int main() {
     test_tonelli_shanks();
     test_tonelli_shanks2();
@@ -244,6 +283,7 @@ int main() {
     test_qs_small();
     test_qs_medium();
     test_qs_large();
+    test_qs_prime();
     test_qs_RSA32();
     test_qs_RSA45();
     test_qs_RSA60();
@@ -251,5 +291,7 @@ int main() {
     test_qs_RSA80();
     test_qs_RSA80_2();
     random_test();
+    test_probprime_true();
+    test_probprime_false();
     // qs_vs_pollard_1();
 }
