@@ -17,12 +17,11 @@ bool QSFact::quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2, 
         case 0:
             // n is guarranteed to be composite
             break;
-        
         case 1:
             // n is most likely prime
             char resp;
-            cout << n << " idenfied as only likely prime, there is a roughly 4^-" << MILLER_RABIN_TRIALS << " that N is in fact"
-                         " composite, do you wish to try anyway? [Y/n]: ";
+            cout << YELLOW << n << " idenfied as only likely prime, there is a roughly 4^-" << MILLER_RABIN_TRIALS << " that N is in fact composite" << RESET << endl;
+            cout << "do you wish to try anyway? [Y/n]: ";
             cin >> resp; 
             if (tolower(resp) != 'y') {
                 fact1 = 1;
@@ -37,6 +36,7 @@ bool QSFact::quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2, 
             return true;
     }
 
+    // sqrt(n) serves at the midpoint of the sieve interval
     root = sqrt(n);
 
     // init smooth bound and interval size
@@ -91,7 +91,6 @@ bool QSFact::quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2, 
                 x = abs(prod(a_vec));
                 sqrt(x);
                 y = prod(b_vec);
-
 
                 // test to see if this is a solution
                 big_gcd(fact1, x - y, n);
@@ -310,6 +309,7 @@ void QSFact::create_factor_base(const mpz_class &n) {
  * I could find involved using either floats or fractions, and neither of those really
  * work here
  *  
+ * Reference: https://github.com/skollmann/PyFactorise/blob/master/factorise.py#L585
 */
 void QSFact::initialize(const mpz_class &n) {
 

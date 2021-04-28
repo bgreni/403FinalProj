@@ -19,7 +19,7 @@ map<int, mpz_class> difficulties {
     {4, RSA_64bit},     // 0.925
     {5, RSA_80bit},     // 3.428
     {6, RSA_80bit_2},   // 9.079
-    {7, RSA_90bit_2},   // 136.074
+    {7, RSA_90bit_2},
     {8, RSA_100bit},
     {9, RSA_129bit},
 };
@@ -45,7 +45,13 @@ int main(int argc, char* argv[]) {
         arg3 = argv[3];
         arg4 = argv[4];
         if (arg3 == "--iter-cap") {
-            iteration_cap = stoi(arg4);
+            try {
+                iteration_cap = stoi(arg4);
+                if (iteration_cap < 1) throw(1);
+            } catch(...) {
+                cout << RED << "Error: --iter-cap must be followed by a valid positive integer" << RESET << endl;
+                return 0;
+            }
         } else {
             cout << "3rd arg must be --iter-cap " << arg3 << " recieved\n";
             return 0;
@@ -55,7 +61,7 @@ int main(int argc, char* argv[]) {
     int level = 0;
     mpz_class n;
 
-    // lost of messy arg handling stuff
+    // messy arg handling stuff
     if (arg1 == "--level") {
         try {
             level = stoi(arg2);
@@ -72,6 +78,10 @@ int main(int argc, char* argv[]) {
     } else if (arg1 == "--user") {
         try {
             n = arg2;
+            if (n < 0) {
+                cout << RED << "Error: N must be a postive integer" << RESET << endl;
+                return 0;
+            }
         } catch (...) {
             cout << RED << "Error: could not parse input as integer" << RESET << endl;
             return 0;

@@ -274,24 +274,24 @@ bool test_probprime_false() {
 }
 
 int main() {
-    test_tonelli_shanks();
-    test_tonelli_shanks2();
-    test_transpose();
-    test_powm();
-    test_legendre();
-    test_qs_tiny();
-    test_qs_small();
-    test_qs_medium();
-    test_qs_large();
-    test_qs_prime();
-    test_qs_RSA32();
-    test_qs_RSA45();
-    test_qs_RSA60();
-    test_qs_RSA64();
-    test_qs_RSA80();
-    test_qs_RSA80_2();
-    random_test();
-    test_probprime_true();
-    test_probprime_false();
-    // qs_vs_pollard_1();
+    // test_tonelli_shanks();
+    // test_tonelli_shanks2();
+    // test_transpose();
+    // test_powm();
+    // test_legendre();
+    // test_qs_tiny();
+    // test_qs_small();
+    // test_qs_medium();
+    // test_qs_large();
+    // test_qs_prime();
+    // test_qs_RSA32();
+    // test_qs_RSA45();
+    // test_qs_RSA60();
+    // test_qs_RSA64();
+    // test_qs_RSA80();
+    // test_qs_RSA80_2();
+    // random_test();
+    // test_probprime_true();
+    // test_probprime_false();
+    qs_vs_pollard_1();
 }
