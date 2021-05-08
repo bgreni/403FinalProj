@@ -207,6 +207,16 @@ bool test_qs_RSA80_2() {
 }
 
 
+bool test_perfect_square() {
+    n = 9;
+    auto s = NOW;
+    qs.quad_sieve(n, f1, f2);
+    auto e = NOW;
+    res = f1 * f2;
+    ASSERT((res == n && (f1 != 1 && f1 != n)), n, res);
+    PASSED;
+}
+
 bool random_test() {
     random_device rd;
     uniform_int_distribution<unsigned long> dist(400, sqrt(INT_MAX));
@@ -289,6 +299,7 @@ int main() {
     test_qs_RSA64();
     test_qs_RSA80();
     test_qs_RSA80_2();
+    test_perfect_square();
     random_test();
     test_probprime_true();
     test_probprime_false();

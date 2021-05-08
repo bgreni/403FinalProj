@@ -12,6 +12,16 @@ bool QSFact::quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2, 
 
     MAX_ITERATIONS = iteration_cap;
 
+    // sqrt(n) serves at the midpoint of the sieve interval
+    big_sqrt(root, n);
+
+    if (root * root == n) {
+        cout << "N is a perfect square\n";
+        fact1 = root;
+        fact2 = root;
+        return true;
+    }
+
     int is_probable_prime = probably_prime(n);
 
     switch(is_probable_prime) {
@@ -36,9 +46,6 @@ bool QSFact::quad_sieve(const mpz_class &n, mpz_class &fact1, mpz_class &fact2, 
             fact2 = n;
             return true;
     }
-
-    // sqrt(n) serves at the midpoint of the sieve interval
-    big_sqrt(root, n);
 
     // init smooth bound and interval size
     initialize(n);
